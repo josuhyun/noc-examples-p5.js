@@ -7,43 +7,39 @@
 // A simple Particle class
 
 class Particle {
-
-  constructor(x, y) {
-    this.position = createVector(x, y);
-    this.acceleration = createVector(0, 0);
+  constructor(position) {
+    this.acceleration = createVector(0, 0.05);
     this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.position = position.copy();
     this.lifespan = 255.0;
   }
 
   run() {
-    let gravity = createVector(0, 0.1);
-    this.applyForce(gravity);
     this.update();
     this.display();
   }
-
-  applyForce(force) {
-    this.acceleration.add(force);
-  }
-
 
   // Method to update position
   update() {
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
-    this.acceleration.set(0, 0);
-    this.lifespan -= 3;
+    this.lifespan -= 2;
   }
 
   // Method to display
   display() {
-    stroke(255, this.lifespan);
+    stroke(200, this.lifespan);
+    strokeWeight(2);
     fill(127, this.lifespan);
-    circle(this.position.x, this.position.y, 12);
+    ellipse(this.position.x, this.position.y, 12, 12);
   }
 
   // Is the particle still useful?
   isDead() {
-    return (this.lifespan < 0.0);
+    if (this.lifespan < 0.0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
